@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Special Birthday Wish</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: url('https://www.w3schools.com/w3images/lights.jpg') no-repeat center center fixed;
+            background-size: cover;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-size: 4em;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+        }
+
+        p {
+            font-size: 1.5em;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+        }
+
+        .message {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 700px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+            z-index: 10;
+        }
+
+        #cake {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: none;
+            animation: cakeAnimation 2s forwards;
+        }
+
+        #balloon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 80px;
+            height: 100px;
+            background-color: #FF69B4;
+            border-radius: 50%;
+            animation: balloonFloat 6s linear infinite;
+            cursor: pointer;
+        }
+
+        #balloon.smash {
+            background-color: #FF0000;
+            transform: scale(0);
+            transition: transform 0.3s ease;
+        }
+
+        #lightsToggle {
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2em;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 10;
+        }
+
+        @keyframes cakeAnimation {
+            0% { transform: translateX(-50%) scale(0); }
+            100% { transform: translateX(-50%) scale(1); }
+        }
+
+        @keyframes balloonFloat {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-30px); }
+            100% { transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="message">
+        <h1 id="birthday-title">Happy Birthday, [Name]!</h1>
+        <p id="birthday-subtitle">Wishing you all the love, joy, and happiness in the world today and always.</p>
+        <p id="birthday-footer">May your year ahead be as special as you are!</p>
+    </div>
+
+    <audio class="birthday-sound" autoplay loop>
+        <source id="audio-source" src="" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <img id="cake" src="" alt="Birthday Cake">
+    <div id="balloon"></div>
+    <button id="lightsToggle">Toggle Lights</button>
+
+    <script>
+        // Fetch the JSON data
+        fetch('birthday_config.json')
+            .then(response => response.json())
+            .then(data => {
+                // Populate the content dynamically
+                document.getElementById('birthday-title').innerText = data.birthdayMessage.title;
+                document.getElementById('birthday-subtitle').innerText = data.birthdayMessage.subtitle;
+                document.getElementById('birthday-footer').innerText = data.birthdayMessage.footer;
+                document.body.style.background = `url('${data.media.backgroundImage}') no-repeat center center fixed`;
+                document.getElementById('cake').src = data.media.cakeImage;
+                document.getElementById('audio-source').src = data.media.audio;
+
+                // Initialize animations and toggle
+                window.onload = function() {
+                    setTimeout(function() {
+                        document.getElementById("cake").style.display = "block";
+                    }, 3000);
+
+                    const balloon = document.getElementById("balloon");
+                    balloon.addEventListener("click", function() {
+                        balloon.classList.add("smash");
+                    });
+
+                    const lightsToggle = document.getElementById("lightsToggle");
+                    let lightsOn = true;
+
+                    lightsToggle.onclick = function() {
+                        lightsOn = !lightsOn;
+                        document.body.style.background = lightsOn
+                            ? `url('${data.media.backgroundImage}') no-repeat center center fixed`
+                            : `url('https://www.w3schools.com/w3images/nature.jpg') no-repeat center center fixed`;
+                        document.body.style.backgroundSize = "cover";
+                    };
+                };
+            })
+            .catch(error => console.log('Error loading JSON:', error));
+    </script>
+</body>
+</html>
