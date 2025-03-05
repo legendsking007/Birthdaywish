@@ -1,0 +1,12 @@
+{
+  "birthdayMessage": {
+    "title": "Happy Birthday, [Name]!",
+    "subtitle": "Wishing you all the love, joy, and happiness in the world today and always.",
+    "footer": "May your year ahead be as special as you are!"
+  },
+  "media": {
+    "backgroundImage": "https://www.w3schools.com/w3images/lights.jpg",
+    "cakeImage": "https://www.w3schools.com/w3images/cake.jpg",
+    "audio": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+  }
+}
